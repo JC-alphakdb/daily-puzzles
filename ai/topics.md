@@ -23,7 +23,7 @@ These didn't have a single "theme" per day beyond a broad category:
 | 2026-10-15 | 3 | matrices, vectors & stats |
 | 2026-10-16 | 3 | dates, dicts, tables & parsing |
 
-## Format B days (weeks 4–5, current standard — one dataset, 10 functions)
+## Format B days (weeks 4–6, current standard — one dataset, 10 functions)
 
 | Date | Week | Theme | Dataset shape | Category |
 |---|---|---|---|---|
@@ -37,6 +37,11 @@ These didn't have a single "theme" per day beyond a broad category:
 | 2026-11-04 | 5 | joining across three tables | 3 tables | multi-table join |
 | 2026-11-05 | 5 | quotes, trades & as-of joins | 2 tables, asof | time-series / asof join (finance) |
 | 2026-11-06 | 5 | parsing a clickstream | raw string list → table, funnel | text parsing → table |
+| 2026-11-09 | 6 | banking transactions & fraud flags | single table | single-table analytics (banking; `bin`, `fby`, per-account `prev`/`next`) |
+| 2026-11-10 | 6 | social graph (followers) | dict of symbol lists (adjacency list) | nested structure / graph traversal (`over`/`scan`, fixed point) |
+| 2026-11-11 | 6 | football league | 4 tables (teams, players, games, goals) | multi-table join (scores derived from goal log) |
+| 2026-11-12 | 6 | order book depth & window joins | 2 tables, nested-list columns | time-series / `aj` + `wj`/`wj1` (finance) |
+| 2026-11-13 | 6 | parsing a support-ticket log | pipe-delimited string list → table | text parsing → table (`vs`, `like`, `ssr`, SLA) |
 
 ### Observed rotation
 
@@ -47,7 +52,11 @@ time-series → text-parsing-to-table**, each time with a different domain
 customers/products/orders, sensor stream → asof quotes/trades, server logs →
 clickstream).
 
-For week 6+: either keep rotating these 5 slots with a new domain each time,
+Week 6 kept the same 5 slots again (banking → social graph → football league →
+order book → support tickets), but leaned on techniques from the pool below
+(`bin`, `over`/`scan` traversal, `wj`/`wj1`, `like`/`ssr`).
+
+For week 7+: either keep rotating these 5 slots with a new domain each time,
 or break the pattern and reach into the untouched categories/techniques
 below so the series doesn't get formulaic.
 
@@ -55,19 +64,16 @@ below so the series doesn't get formulaic.
 
 finance/trades, warehouse/stock, HR (employees/departments), IoT sensors,
 server logs, restaurant orders, school grades, e-commerce (customers/
-products/orders), market quotes/trades (asof), web clickstream.
+products/orders), market quotes/trades (asof), web clickstream, banking
+transactions/fraud, social graph, sports league, order book depth, support
+tickets.
 
 ## Not yet touched — ideas pool
 
 Domains:
-- order book / market depth (multiple price levels per side)
 - flights / scheduling (delays, connections)
-- sports stats (teams, players, games, standings)
-- banking transactions / fraud-flag style detection
-- social graph / followers (adjacency list, simple traversal)
 - project/timesheet tracking (people × projects × hours)
 - delivery/logistics routes (stops, distances, time windows)
-- chat/support tickets (messages, response times, SLA)
 - inventory reordering (stock levels, thresholds, reorder points)
 
 q-language techniques not yet deliberately exercised as the focus of a day
@@ -75,13 +81,14 @@ q-language techniques not yet deliberately exercised as the focus of a day
 good standalone themes):
 - functional forms of select/exec/update (`?[t;...]`, `![t;...]`)
 - `each`, `each-left`/`each-right`/`each-prior`, `peach` semantics
-- `scan`/`over` (`\`/`/`), recursion, fixed-point iteration
-- vector conditionals: `?`, `within`, `in`, `bin`
+- `scan`/`over` (`\`/`/`), recursion, fixed-point iteration — partly covered
+  (graph traversal, 2026-11-10)
+- vector conditionals: `?`, `within`, `in`, `bin` — `bin` banding covered 2026-11-09
 - enumerations / symbol interning (`sym?`, `` `sym$ ``)
 - functional amend (`@`, `.`, `amend at`)
-- windowed joins (`wj`, `wj1`) beyond simple asof
+- windowed joins (`wj`, `wj1`) beyond simple asof — covered 2026-11-12
 - splayed/partitioned table basics, attributes (`` `s# ``, `` `g# ``, `` `p# ``)
-- string handling: `like`, regex-ish matching, `ss`/`ssr`
+- string handling: `like`, regex-ish matching, `ss`/`ssr` — `like`/`ssr` covered 2026-11-13
 - error handling / protected evaluation (`@`/`.` with error trap, `signal`)
 - IPC basics (`hopen`, sync vs async messages) — may be out of scope if quizzes
   must run standalone
