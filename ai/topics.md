@@ -23,7 +23,7 @@ These didn't have a single "theme" per day beyond a broad category:
 | 2026-10-15 | 3 | matrices, vectors & stats |
 | 2026-10-16 | 3 | dates, dicts, tables & parsing |
 
-## Format B days (weeks 4–6, current standard — one dataset, 10 functions)
+## Format B days (weeks 4–7, current standard — one dataset, 10 functions)
 
 | Date | Week | Theme | Dataset shape | Category |
 |---|---|---|---|---|
@@ -42,6 +42,11 @@ These didn't have a single "theme" per day beyond a broad category:
 | 2026-11-11 | 6 | football league | 4 tables (teams, players, games, goals) | multi-table join (scores derived from goal log) |
 | 2026-11-12 | 6 | order book depth & window joins | 2 tables, nested-list columns | time-series / `aj` + `wj`/`wj1` (finance) |
 | 2026-11-13 | 6 | parsing a support-ticket log | pipe-delimited string list → table | text parsing → table (`vs`, `like`, `ssr`, SLA) |
+| 2026-11-23 | 7 | flight delays & connections | single table (date + minute columns, cancellations) | single-table analytics (aviation; date+time arithmetic, `xbar` slots, crossing midnight, null-compare gotcha) |
+| 2026-11-24 | 7 | inventory & reordering | keyed table with nested 7-day forecast column | nested structure / functional amend (`.`/`@` deep amend, `scan` stock simulation) |
+| 2026-11-25 | 7 | project timesheets & functional queries | 3 tables (people, projects, hours) | multi-table join + functional forms (`?[t;c;b;a]`, `![t;c;b;a]`, dynamic pivot) |
+| 2026-11-26 | 7 | delivery routes & time windows | keyed table of stops + dict of routes | routing / scheduling (each-prior legs, `scan` clock with waits, permutations brute force) |
+| 2026-11-27 | 7 | parsing hotel booking requests | key=value string list → table | text parsing → table (`0:` key-value, `'` signal, `@` protected eval, occupancy, `over` request processing) |
 
 ### Observed rotation
 
@@ -56,7 +61,12 @@ Week 6 kept the same 5 slots again (banking → social graph → football league
 order book → support tickets), but leaned on techniques from the pool below
 (`bin`, `over`/`scan` traversal, `wj`/`wj1`, `like`/`ssr`).
 
-For week 7+: either keep rotating these 5 slots with a new domain each time,
+Week 7 bent the slots towards the untouched techniques: flights (date/time
+arithmetic) → inventory (functional amend + simulation) → timesheets
+(functional select/update/delete) → delivery routes (scan-carried clock,
+permutation search) → hotel bookings (key=value parsing + error trapping).
+
+For week 8+: either keep rotating these 5 slots with a new domain each time,
 or break the pattern and reach into the untouched categories/techniques
 below so the series doesn't get formulaic.
 
@@ -66,31 +76,32 @@ finance/trades, warehouse/stock, HR (employees/departments), IoT sensors,
 server logs, restaurant orders, school grades, e-commerce (customers/
 products/orders), market quotes/trades (asof), web clickstream, banking
 transactions/fraud, social graph, sports league, order book depth, support
-tickets.
+tickets, flights, inventory/reordering, project timesheets, delivery routes,
+hotel bookings.
 
 ## Not yet touched — ideas pool
 
-Domains:
-- flights / scheduling (delays, connections)
-- project/timesheet tracking (people × projects × hours)
-- delivery/logistics routes (stops, distances, time windows)
-- inventory reordering (stock levels, thresholds, reorder points)
+Domains (the original four were all used in week 7 — add new ones here):
+- library loans (members, books, due dates, fines)
+- energy metering (half-hourly readings, tariffs, peaks)
+- recipe / ingredient scaling (nested quantities, unit conversion)
+- elections / ranked-choice ballots (iterative elimination)
 
 q-language techniques not yet deliberately exercised as the focus of a day
 (weeks 4–5 lean heavily on `select`/`exec`/`by`/`fby`/joins — these would make
 good standalone themes):
-- functional forms of select/exec/update (`?[t;...]`, `![t;...]`)
-- `each`, `each-left`/`each-right`/`each-prior`, `peach` semantics
+- functional forms of select/exec/update (`?[t;...]`, `![t;...]`) — covered 2026-11-25
+- `each`, `each-left`/`each-right`/`each-prior`, `peach` semantics — each-both/each-prior pairing used 2026-11-26, not yet the focus of a day
 - `scan`/`over` (`\`/`/`), recursion, fixed-point iteration — partly covered
-  (graph traversal, 2026-11-10)
+  (graph traversal, 2026-11-10; stateful simulations 2026-11-24, 2026-11-26)
 - vector conditionals: `?`, `within`, `in`, `bin` — `bin` banding covered 2026-11-09
 - enumerations / symbol interning (`sym?`, `` `sym$ ``)
-- functional amend (`@`, `.`, `amend at`)
+- functional amend (`@`, `.`, `amend at`) — covered 2026-11-24
 - windowed joins (`wj`, `wj1`) beyond simple asof — covered 2026-11-12
 - splayed/partitioned table basics, attributes (`` `s# ``, `` `g# ``, `` `p# ``)
 - string handling: `like`, regex-ish matching, `ss`/`ssr` — `like`/`ssr` covered 2026-11-13
-- error handling / protected evaluation (`@`/`.` with error trap, `signal`)
+- error handling / protected evaluation (`@`/`.` with error trap, `signal`) — covered 2026-11-27
 - IPC basics (`hopen`, sync vs async messages) — may be out of scope if quizzes
   must run standalone
-- date/time arithmetic edge cases (month-end, DST-adjacent, `` `month$ ``)
+- date/time arithmetic edge cases (month-end, DST-adjacent, `` `month$ ``) — midnight crossing / `date+minute` covered 2026-11-23; month-end still open
 - random sampling (`?`, `deal` vs `roll`) and simulation-style questions
